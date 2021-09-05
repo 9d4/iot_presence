@@ -18,7 +18,7 @@ int counter = 0;
 
 String readRFID()
 {
-  Serial.print("UID tag : ");
+  Serial.print("UID tag  :");
   String rfid_content = "";
 
   for (byte i = 0; i < rfid.uid.size; i++)
@@ -33,9 +33,8 @@ String readRFID()
   Serial.println();
 
   MFRC522::PICC_Type piccType = rfid.PICC_GetType(rfid.uid.sak);
+  Serial.print("Card Type: ");
   Serial.println(rfid.PICC_GetTypeName(piccType));
-
-  Serial.println(rfid_content);
 
   return rfid_content.substring(1);
 }
@@ -78,6 +77,9 @@ void onCardSuccess()
 
   tone(BUZZER, 900);
   noTone(BUZZER);
+
+  Serial.println("Data sent!");
+  Serial.println();
 }
 
 void onCardDetected()
