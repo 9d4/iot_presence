@@ -1,9 +1,9 @@
-function target(uri, msg) {
-    console.log("Uri: ", uri)
+async function target(subTopic, msg) {
+
 }
 
 module.exports = {
-    async doTrigger(uri, message) {
-        target(uri, message)
+    async doTrigger(subTopic, message) {
+        target(subTopic, message)
     }
 }

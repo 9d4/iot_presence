@@ -20,6 +20,7 @@ const subscribedTopics = [
 const client = mqtt.connect(options)
 
 
+
 client.on('connect', function () {
     client.subscribe(subscribedTopics, function (err) {
         if (!err) {
@@ -35,19 +36,21 @@ client.on('disconnect', function () {
 
 client.on('message', function (topic, message) {
     console.log('======================================')
-    console.log('Topic  : ', topic)
-    
+
+    console.log('Timestamp: ', Date.now())
+    console.log('Topic    : ', topic)
+
     try {
-        console.log('Message: ', JSON.parse(message))
+        console.log('Message  : ', JSON.parse(message))
 
         // do trigger
         // if the message can be parsed to JSON
         // then send, else don't send message
-        let uri = topic.split('/')   // get path of topic
-        uri.shift();                 // remove the base topic of topics
-        uri = uri.join('/')          // reassemble to string
+        let subTopic = topic.split('/')   // get path of topic
+        subTopic.shift();                 // remove the base topic of topics
+        subTopic = subTopic.join('/')          // reassemble to string
 
-        trigger.doTrigger(uri, JSON.parse(message))
+        trigger.doTrigger(subTopic, JSON.parse(message))
     } catch {
         console.log('Can\'t parse message!')
         console.log('Showing raw data:')
