@@ -14,7 +14,7 @@ app.use(express.static('./public'));
 app.use(expressLayouts);
 
 // * routes
-app.use(require('./routes/home'));
-app.use(require('./routes/api/something'));
+app.use(require('./routes/web'));
+app.use(require('./routes/api'));
 
 app.listen(port, () => console.log('Listening at port', port));
