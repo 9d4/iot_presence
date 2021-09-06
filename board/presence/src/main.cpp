@@ -63,19 +63,18 @@ void mqttAutoConnect()
 
 void onCardSuccess()
 {
-  tone(BUZZER, 528);
-  delay(100);
+  tone(BUZZER, 1200);
+  delay(70);
   noTone(BUZZER);
+  delay(50);
 
-  tone(BUZZER, 615);
-  delay(100);
+  tone(BUZZER, 1200);
+  delay(70);
   noTone(BUZZER);
+  delay(50);
 
-  tone(BUZZER, 718);
-  delay(100);
-  noTone(BUZZER);
-
-  tone(BUZZER, 900);
+  tone(BUZZER, 1200);
+  delay(70);
   noTone(BUZZER);
 
   Serial.println("Data sent!");
