@@ -1,13 +1,13 @@
 const { Router } = require('express');
 const router = Router();
 
-router.get('/api', (req, res) => {
-    res.json('this is prefix for all api endpoints');
-});
-
+router.route('/')
+    .get((req, res) => {
+        res.status(403);
+        res.send();
+    });
 
 module.exports = [
     router,
-    require('./something'),
     require('./presence'),
 ];
