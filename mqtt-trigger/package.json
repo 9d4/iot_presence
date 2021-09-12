@@ -10,6 +10,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "mqtt": "^4.2.8"
+    "async-mqtt": "^2.6.1",
+    "mqtt": "^4.2.8",
+    "prompt": "^1.2.0"
+  },
+  "devDependencies": {
+    "dotenv": "^10.0.0"
   }
 }

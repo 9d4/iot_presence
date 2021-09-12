@@ -4,17 +4,29 @@
   "main": "app.js",
   "scripts": {
     "start": "node app",
-    "dev": "nodemon app --watch . -e js,ts,env,ejs"
+    "dev": "nodemon app.js -e js,ts,env,ejs"
   },
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^10.0.0",
     "ejs": "^3.1.6",
     "express": "^4.17.1",
     "express-ejs-layouts": "^2.5.1",
-    "mongoose": "^6.0.4"
+    "lodash": "^4.17.21",
+    "moment": "^2.29.1",
+    "mongodb": "^4.1.1",
+    "mongoose": "^6.0.4",
+    "mqtt": "^4.2.8",
+    "query-string": "^7.0.1",
+    "vue": "^2.6.14",
+    "ws": "^8.2.2"
   },
   "devDependencies": {
+    "@vue/compiler-sfc": "^3.2.11",
+    "kill-port": "^1.6.1",
+    "laravel-mix": "^6.0.29",
     "nodemon": "^2.0.12",
-    "dotenv": "^10.0.0"
+    "vue-loader": "^16.2.0",
+    "vue-template-compiler": "^2.6.14"
   }
 }

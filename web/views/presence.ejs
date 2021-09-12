@@ -1,0 +1,33 @@
+<a href="/presence/list" class="btn btn-sm btn-primary" role="button"
+  >All &RightArrow;</a
+>
+<div class="row">
+  <div class="col-3">
+    <h5>Date</h5>
+    <div class="list-group">
+      <% dates.forEach((item) => {%>
+      <a
+        href="/presence/list?date=<%- item %> "
+        class="list-group-item list-group-item-action"
+      >
+        <%= item %>
+      </a>
+      <% }) %>
+    </div>
+  </div>
+  <div class="col-3">
+    <h5>Classes</h5>
+    <div class="list-group">
+      <% classes.forEach((item) => {%>
+      <a
+        href="/presence/list?class=<%- item %> "
+        class="list-group-item list-group-item-action"
+      >
+        <%= item %>
+      </a>
+      <% }) %>
+    </div>
+  </div>
+  <div class="col-3"></div>
+  <div class="col-3"></div>
+</div>

@@ -1,6 +1,7 @@
 // libraries
-const mqtt = require('mqtt')
-const trigger = require('./trigger')
+require('dotenv').config();
+const mqtt = require('mqtt');
+const trigger = require('./trigger');
 
 // others
 const options = {
@@ -17,14 +18,15 @@ const subscribedTopics = [
 
 // ===========
 // mqtt client
-const client = mqtt.connect(options)
-
+const client = mqtt.connect(options);
 
 
 client.on('connect', function () {
-    client.subscribe(subscribedTopics, function (err) {
-        if (!err) {
-            console.log('Connect success')
+    client.subscribe(subscribedTopics, function (e) {
+        if (e) {
+            console.log(e)
+        } else {
+            console.log('connected');
         }
     })
 })
@@ -35,10 +37,14 @@ client.on('disconnect', function () {
 });
 
 client.on('message', function (topic, message) {
-    console.log('======================================')
+    if (global.typing) {
+        return
+    }
 
+    console.log('======================================')
     console.log('Timestamp: ', Date.now())
     console.log('Topic    : ', topic)
+
 
     try {
         console.log('Message  : ', JSON.parse(message))
@@ -46,18 +52,14 @@ client.on('message', function (topic, message) {
         // do trigger
         // if the message can be parsed to JSON
         // then send, else don't send message
-        let subTopic = topic.split('/')   // get path of topic
-        subTopic.shift();                 // remove the base topic of topics
-        subTopic = subTopic.join('/')          // reassemble to string
 
-        trigger.doTrigger(subTopic, JSON.parse(message))
     } catch {
         console.log('Can\'t parse message!')
         console.log('Showing raw data:')
         console.log(message.toString())
     }
+    trigger(topic, JSON.parse(message))
 
     console.log('======================================')
-    console.log()
 })
 

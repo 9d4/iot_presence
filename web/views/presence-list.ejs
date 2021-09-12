@@ -1,0 +1,48 @@
+<a class="btn btn-sm btn-primary mb-2" href="/presence" role="button"
+  >Presence &leftarrow;</a
+>
+
+<% if (filters.length) {%>
+<code>Filters:&ThickSpace;</code>
+<% filters.forEach(item => { %>
+<code><%- item.name + ":" + item.value %> </code>
+<% }) %> <% } %>
+
+<div class="row">
+  <div class="col-3">
+    <h4><%- leftContents.title %></h4>
+    <div class="list-group">
+      <% leftContents.forEach((item) => {%>
+      <a href="<%- item.link %> " class="list-group-item list-group-item-action"
+        ><%- item.content %></a
+      >
+      <% }) %>
+    </div>
+  </div>
+  <div
+    class="<% if (leftContents.length) {%> col-9 <% }else{ %> col-12 <% } %>"
+  >
+    <table class="table">
+      <thead>
+        <tr>
+          <th>RFID</th>
+          <th>Name</th>
+          <th>Class</th>
+          <th>NIS</th>
+          <th>Time</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% presences.forEach((item) => {%>
+        <tr>
+          <td><%- item.rfid %></td>
+          <td><%- item.student.name %></td>
+          <td><%- item.student.class %></td>
+          <td><%- item.student.nis %></td>
+          <td><%- item.date %></td>
+        </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+</div>

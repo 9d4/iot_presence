@@ -1,0 +1,34 @@
+<a
+  name=""
+  id=""
+  class="btn btn-primary btn-sm m-1"
+  href="/student/reg"
+  role="button"
+  >Register Student</a
+>
+
+<div class="table-responsive">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>RFID</th>
+        <th>Name</th>
+        <th>NIS</th>
+        <th>Class</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% for (let i=0; i < students.length; i++){ %> <% let item = students[i]
+      %>
+
+      <tr>
+        <td><%= item.rfid %></td>
+        <td><%= item.name %></td>
+        <td><%= item.nis %></td>
+        <td><%= item.class %></td>
+      </tr>
+
+      <% } %>
+    </tbody>
+  </table>
+</div>
