@@ -3,9 +3,11 @@ const moment = require("moment");
 const {
   get_presence_days,
   get_classes,
+  get_student_by_rfid,
 } = require("../services/PresenceService");
 const Student = require("../models/Student");
-const { orderBy } = require("lodash");
+const { orderBy, includes } = require("lodash");
+const { nanoid } = require("nanoid");
 
 exports.presence_list = async function (req, res, next) {
   let presences = orderBy(
@@ -106,8 +108,41 @@ exports.presence_get = async function (req, res, next) {
   res.render("presence", { dates, classes });
 };
 
-exports.apis = {
-  do_present_post: async function (req, res, next) {
-    next();
-  },
+exports.presence_not_present_list = async function (req, res, next) {
+  const presenceDates = await get_presence_days();
+  const students = await Student.find().lean();
+  let output = [];
+  let students_rfid = [];
+
+  students.forEach(student => {
+    students_rfid.push(student.rfid);
+  })
+
+  console.log(students_rfid)
+  for (let i = 0; i < presenceDates.length; i++) {
+    const currentDate = moment(presenceDates[i]).local();
+    const presences = await (await Presence.find().lean()).filter(p => moment.utc(p.date).local().isSame(currentDate, 'day'));
+    let presents_rfid = [];
+    let not_presents = [];
+
+    for (let j = 0; j < presences.length; j++) {
+      const p = presences[j];
+      presents_rfid.push(p.rfid);
+    }
+
+    for (let j = 0; j < students_rfid.length; j++) {
+      if (!presents_rfid.includes(students_rfid[j])) {
+        not_presents.push(await get_student_by_rfid(students_rfid[j]))
+      }
+    }
+
+    output.push({
+      id: nanoid(),
+      date: currentDate.format("YYYY-MM-DD"),
+      students: not_presents,
+    });
+  }
+
+  console.log(output)
+  res.render('presence-no', { data: output });
 };

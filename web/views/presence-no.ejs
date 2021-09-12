@@ -1,0 +1,49 @@
+<a class="btn btn-sm btn-primary mb-2" href="/presence" role="button">Presence &leftarrow;</a>
+
+<% data.forEach(item=> { %>
+  <% if (item.students.length> 0) { %>
+
+    <p>
+      <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#item<%= item.id %>"
+        aria-expanded="false" aria-controls="item<%= item.id %>">
+        <%- item.date %>
+      </button>
+    </p>
+
+    <div class="collapse mb-2" id="item<%= item.id %>">
+      <div class="card card-body">
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>RFID</th>
+                <th>Name</th>
+                <th>Class</th>
+                <th>NIS</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% item.students.forEach((student)=> {%>
+                <tr>
+                  <td>
+                    <%- student.rfid %>
+                  </td>
+                  <td>
+                    <%- student.name %>
+                  </td>
+                  <td>
+                    <%- student.class %>
+                  </td>
+                  <td>
+                    <%- student.nis %>
+                  </td>
+                </tr>
+                <% }) %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  <% } %>
+<% }) %>

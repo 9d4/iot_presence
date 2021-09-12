@@ -7,9 +7,7 @@ const express = require("express"),
   http = require("http"),
   server = (exports.server = http.createServer(app)),
   websockets = require("./websockets");
-/**
- * Bootstrap app
- */
+
 // * logger
 app.use(require("./app/core/logger"));
 

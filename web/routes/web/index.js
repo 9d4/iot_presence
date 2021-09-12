@@ -2,6 +2,7 @@ const { Router } = require("express");
 const {
   presence_list,
   presence_get,
+  presence_not_present_list,
 } = require("../../app/controllers/presenceController");
 const router = (module.exports = Router());
 const {
@@ -29,3 +30,4 @@ router.get("/student/reg/end", student_reg_end);
 router.get("/presence", presence_get);
 router.get("/presence/list", presence_list);
 router.get("/presence/realtime", presence_list);
+router.get("/presence/no", presence_not_present_list);
