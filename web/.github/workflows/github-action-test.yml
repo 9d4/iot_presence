@@ -1,0 +1,14 @@
+name: GitHub Actions Test
+on: [push]
+jobs:
+  Test-App:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+      - name: Use nodejs
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      - run: npm i
+      - run: npm run dev
