@@ -1,3 +1,4 @@
+#include <ESP8266WiFi.h>
 #include <constants.h>
 #include <pins.h>
 #include <Arduino.h>
@@ -11,10 +12,7 @@
 MFRC522 rfid(SS_PIN, RST_PIN);
 WiFiClient wifiClient;
 PubSubClient client(wifiClient);
-String lastRfid = "";
 
-//dev
-int counter = 0;
 
 String readRFID()
 {
@@ -85,12 +83,6 @@ void onCardDetected()
 {
   const String rfid = readRFID();
 
-  if (lastRfid == rfid)
-  {
-    // return;
-  }
-
-  lastRfid = rfid;
 
   DynamicJsonDocument payloadJson(1024);
   char payload[2048] = "";
@@ -99,7 +91,10 @@ void onCardDetected()
 
   serializeJson(payloadJson, payload);
 
-  mqttAutoConnect();
+  if (!client.connected()){
+    mqttAutoConnect();
+  }
+
   client.publish(MQTT_TOPIC, payload);
 
   // data uploaded = done!
@@ -117,6 +112,7 @@ void setup()
   // WiFi stuffs
   WiFiManager wifiManager;
   wifiManager.autoConnect(AP_SSID, AP_PASSWORD);
+  
 
   // MQTT Stuffs
   client.setServer(MQTT_SERVER, MQTT_PORT);
@@ -128,6 +124,13 @@ void setup()
 
 void loop()
 {
+  if (!client.connected()) {
+    digitalWrite(LED_READY, LOW);
+    mqttAutoConnect();
+  }
+
+  digitalWrite(LED_READY, HIGH);
+
   if (!rfid.PICC_IsNewCardPresent())
   {
     return;

@@ -38,7 +38,9 @@ app.use(require("./routes"));
 require("./app/core/settingBootstrap");
 
 // * mqtt bridge
-require("./app/services/MqttBridge");
+// require("./app/services/MqttBridge");
+
+require('./app/services/AmqpBridge');
 
 // * connect db
 require("./app/core/database");
