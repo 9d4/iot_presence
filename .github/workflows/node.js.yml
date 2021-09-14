@@ -28,7 +28,7 @@ jobs:
       uses: actions/setup-node@v2
       with:
         node-version: ${{ matrix.node-version }}
-    - run: npm ci
+    - run: npm install
       working-directory: ./web
     - run: npm run dev --if-present
       working-directory: ./web
