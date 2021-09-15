@@ -1,4 +1,4 @@
-const amqplib = require("amqplib/callback_api");
+const amqplib = require("amqplib");
 
 const host = {
   url: "localhost", // url without protocol (we use amqp by default)
@@ -11,20 +11,29 @@ const host = {
 const server = `amqp://${host.username}:${host.username}@${host.url}:${host.port}/${host.vhost}`;
 
 let queues = []; // {queue:string, callback}
+let conn = null;
 
-const client = amqplib.connect(server, function (err, __conn__) {
-  if (err) throw err;
-  else {
-    console.log("[amqp] connected");
-  }
-
-  ready(__conn__); // trigger ready
-});
+const client = amqplib.connect(server).then((conn) => {
+  console.log(conn);
+})
 
 function ready(conn) {
-  queues.forEach(({ queue, callback }) => {
-    consume(conn, queue, callback);
+
+  queues.forEach(async ({ queue, callback }) => {
+
+
+    conn.createChannel(async function (err, chan) {
+      if (err) throw err;
+
+      chan.assertQueue(queue);
+      await chan.consume(queue, __callback__);
+
+      async function __callback__(msg) {
+        await callback(msg, chan);
+      }
+    });
   });
+
 }
 
 let previousMsg = "";
