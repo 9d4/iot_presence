@@ -27,6 +27,8 @@ function ready(conn) {
   });
 }
 
+let previousMsg = "";
+
 function consume(conn, queue, callback) {
   conn.createChannel(function (err, chan) {
     if (err) throw err;
@@ -35,7 +37,9 @@ function consume(conn, queue, callback) {
     chan.consume(queue, __callback__);
 
     function __callback__(msg) {
-      callback(msg, chan);
+      if (previousMsg !== msg.content) callback(msg, chan);
+
+      previousMsg = msg.content;
     }
   });
 }
