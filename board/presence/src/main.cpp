@@ -124,12 +124,14 @@ void setup()
 
 void loop()
 {
-  if (!client.connected()) {
-    digitalWrite(LED_READY, LOW);
-    mqttAutoConnect();
-  }
+  client.loop();
 
-  digitalWrite(LED_READY, HIGH);
+  // if (!client.connected()) {
+  //   digitalWrite(LED_READY, LOW);
+  //   mqttAutoConnect();
+  // }
+
+  // digitalWrite(LED_READY, HIGH);
 
   if (!rfid.PICC_IsNewCardPresent())
   {
