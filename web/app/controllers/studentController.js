@@ -4,16 +4,17 @@ const websockets = require("../../websockets");
 const { orderBy } = require("lodash");
 
 exports.student_list = async function (req, res, next) {
-  let students = orderBy(
-    await Student.find().lean(),
-    ["class", "name"],
-    ["asc", "asc"]
-  );
-
-  res.render("student-list", {
-    title: "Student list",
-    students,
-  });
+  let students = Student.find()
+    .lean()
+    .then((_students) => {
+      return orderBy(_students, ["class", "name"], ["asc", "asc"]);
+    })
+    .then(() => {
+      res.render("student-list", {
+        title: "Student list",
+        students,
+      });
+    });
 };
 
 exports.student_reg = async function (req, res, next) {
