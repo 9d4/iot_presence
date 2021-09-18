@@ -77,7 +77,8 @@ exports.present = function (message) {
         return Promise.reject("User not registered");
       }
       return query;
-    });
+    })
+    .catch((e) => e);
 
   // check if already present at that day (from timestamp)
   const missing = found.then(() => {
@@ -102,7 +103,7 @@ exports.present = function (message) {
 
   missing
     .then(() => {
-      new Presence({
+      return new Presence({
         rfid: message.rfid,
         date: Date.now(),
       })
@@ -123,7 +124,9 @@ exports.present = function (message) {
           return presence;
         });
     })
-    .catch((e) => {});
+    .catch((e) => {
+      console.log(e);
+    });
 
   return found;
 };
