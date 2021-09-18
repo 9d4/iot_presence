@@ -1,35 +1,17 @@
 const mongooseLib = require("mongoose");
-const mongoClient = require("mongodb").MongoClient;
 
-mongooseLib
+exports.init = mongooseLib
   .connect(process.env.MONGODB_SERVER, {
     autoCreate: true,
     autoIndex: true,
   })
   .then(() => {
-    console.log("mongodb connected");
+    console.log("[mongodb] connected");
+    return;
   })
   .catch((e) => {
-    console.log("Unable to connect database");
-    process.exit(1);
+    console.log("[mongodb] Unable to connect database");
+    throw e;
   });
-
-mongooseLib.a = "not a";
-
-const mongodb = {
-  db: null,
-  connect(callback) {
-    mongoClient.connect(process.env.MONGODB_SERVER, (err, database) => {
-      if (err) throw err;
-      this.db = database;
-    });
-  },
-  get() {
-    return this.db;
-  },
-  close() {
-    this.db.close();
-  },
-};
 
 exports.mongoose = mongooseLib;

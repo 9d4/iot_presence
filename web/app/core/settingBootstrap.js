@@ -1,21 +1,28 @@
 const defaultSetting = require("./defaultSettings");
 const Setting = require("../models/Setting");
 
-async function addSettingToDb(name, value) {
+function addSettingToDb(name, value) {
   let setting = new Setting({ name, value });
-  await setting.save();
+  return setting.save();
 }
 
-async function setupSettings() {
-  for (const [key, value] of Object.entries(defaultSetting)) {
-    let setting = await Setting.findOne({ name: key }).exec();
+function setupSettings() {
+  return new Promise(function (resolve, reject) {
+    for (const [key, value] of Object.entries(defaultSetting)) {
+      let setting = Setting.findOne({ name: key }).exec();
 
-    if (setting === null) {
-      addSettingToDb(key, value);
+      setting
+        .then(function (val) {
+          if (val === null) {
+            return addSettingToDb(key, value);
+          }
+        })
+        .then();
     }
-  }
+
+    console.log("[setting] done");
+    resolve();
+  });
 }
 
-module.export = (async function () {
-  await setupSettings();
-})();
+module.exports = setupSettings();

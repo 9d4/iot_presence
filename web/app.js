@@ -33,17 +33,30 @@ app.use((req, res, next) => {
 // * routes
 app.use(require("./routes"));
 
-// * setting bootstrap
-/** Add default setting to db if not already set */
-require("./app/core/settingBootstrap");
+require("./app/core/database")
+  .init.then(function () {
+    return require("./app/core/settingBootstrap");
+  })
+  .then(function () {
+    return require("./app/services/AmqpBridge");
+  })
+  .then(function () {
+    server.listen(port, () => console.log("[server] Listening at port", port));
+  });
 
-// * mqtt bridge
-// require("./app/services/MqttBridge");
+// boot.then((msg) => console.log(msg))
 
-require('./app/services/AmqpBridge');
-
-// * connect db
-require("./app/core/database");
-
-// * run server
-server.listen(port, () => console.log("Listening at port", port));
+// run()
+//   .then(() => {
+//   })
+//   .catch((e) => { throw e })
+//   .then(() => {
+//     // * connect db
+//     require("./app/core/database");
+//   })
+//   .then(() => {
+//     // * run server
+//   })
+//   .catch(e => {
+//     throw new Error(e);
+//   })
