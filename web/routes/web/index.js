@@ -13,7 +13,7 @@ const {
   studentApi = apis,
 } = require("../../app/controllers/studentController");
 
-router.get("/", (req, res) => {
+router.get("/", async (req, res) => {
   res.render("home", {
     links: [
       { name: "Student List", href: "/student/list" },

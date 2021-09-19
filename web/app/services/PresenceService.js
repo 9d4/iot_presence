@@ -60,7 +60,7 @@ exports.remove_duplicates = async function () {
 //   return presence;
 // };
 
-exports.present = function (message) {
+exports.present = function (message, timestamp = null) {
   // check if input is valid
   if (!message.rfid) {
     return "Invalid payload";
@@ -69,66 +69,64 @@ exports.present = function (message) {
   }
 
   // check if student is registered
-  const found = Student.where("rfid")
-    .equals(message.rfid)
-    .exec()
-    .then((query) => {
-      if (!query[0]) {
-        return Promise.reject("User not registered");
-      }
-      return query;
-    })
-    .catch((e) => e);
-
-  // check if already present at that day (from timestamp)
-  const missing = found.then(() => {
-    return Presence.where("rfid")
+  return (
+    Student.where("rfid")
       .equals(message.rfid)
       .exec()
-      .then((presences) => {
-        for (let i = 0; i < presences.length; i++) {
-          const item = presences[i];
-
-          if ((date = item.presentToday())) {
-            return Promise.reject(
-              `Already present today at ${
-                moment(date).local().hour() + ":" + moment(date).minute()
-              }`
-            );
-          }
+      .then((query) => {
+        if (!query[0]) {
+          return Promise.reject("User not registered");
         }
-        return;
-      });
-  });
-
-  missing
-    .then(() => {
-      return new Presence({
-        rfid: message.rfid,
-        date: Date.now(),
+        return query;
       })
-        .save()
-        .then((p) => {
-          let presence = Presence.findOne({
-            _id: p._id,
-          }).lean();
 
-          presence.date = moment(presence.date).format("YYYY-MM-DD HH:mm");
-          presence.student = exports.get_student_by_rfid(presence.rfid);
+      // check if already present at that day (from timestamp)
+      .then(() => {
+        return Presence.where("rfid")
+          .equals(message.rfid)
+          .exec()
+          .then((presences) => {
+            for (let i = 0; i < presences.length; i++) {
+              const item = presences[i];
 
-          // Pushing to websocket clients
-          websockets.clients.forEach((socket) => {
-            socket.send(JSON.stringify(presence));
+              if ((date = item.presentToday())) {
+                return Promise.reject(
+                  `Already present today at ${
+                    moment(date).local().hour() + ":" + moment(date).minute()
+                  }`
+                );
+              }
+            }
+            return;
           });
+      })
 
-          return presence;
-        });
-    })
-    .catch((e) => {
-      console.log(e);
-    });
+      .then(() => {
+        return new Presence({
+          rfid: message.rfid,
+          date: timestamp ?? Date.now(),
+        })
+          .save()
+          .then((p) => {
+            let presence = Presence.findOne({
+              _id: p._id,
+            }).lean();
 
-  return found;
+            presence.date = moment(presence.date).format("YYYY-MM-DD HH:mm");
+            presence.student = exports.get_student_by_rfid(presence.rfid);
+
+            // Pushing to websocket clients
+            websockets.clients.forEach((socket) => {
+              socket.send(JSON.stringify(presence));
+            });
+
+            return presence;
+          });
+      })
+      .catch((e) => {
+        console.log(e);
+      })
+  );
 };
 
 exports.get_presence_days = async function () {

@@ -9,10 +9,10 @@ exports.student_list = async function (req, res, next) {
     .then((_students) => {
       return orderBy(_students, ["class", "name"], ["asc", "asc"]);
     })
-    .then(() => {
+    .then((_students) => {
       res.render("student-list", {
         title: "Student list",
-        students,
+        students: _students,
       });
     });
 };

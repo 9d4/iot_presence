@@ -1,7 +1,11 @@
 {
-  "name": "mqtt-trigger",
+  "name": "iot_presence",
   "version": "1.0.0",
   "main": "app.js",
+  "description": "the web of iot presence",
+  "repository": {
+    "url": "https://github.com/traperwaze/iot_presence"
+  },
   "scripts": {
     "start": "node app",
     "dev": "nodemon app.js -e js,ts,env,ejs"
