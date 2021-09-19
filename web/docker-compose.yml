@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  web:
+    build: .
+    ports: 
+      - '9000:9000'
+    networks: 
+      - iot_presence
+    volumes: 
+      - '.:/usr/src/app'
+    depends_on: 
+      - db
+
+  db:
+    image: mongo:4.2.16
+    ports:
+      - '27017:27017'
+    networks:
+      - iot_presence
+    volumes:
+      - 'iot_presence-db:/data/db'
+
+networks:
+  iot_presence:
+      driver: bridge
+
+volumes:
+  iot_presence-db:
+      driver: local
