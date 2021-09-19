@@ -68,8 +68,8 @@ exports.present = function (message, timestamp = null) {
     message.rfid = message.rfid.toLowerCase();
   }
 
-  // check if student is registered
   return (
+    // check if student is registered
     Student.where("rfid")
       .equals(message.rfid)
       .exec()
@@ -102,18 +102,34 @@ exports.present = function (message, timestamp = null) {
       })
 
       .then(() => {
+        // write presence to db
         return new Presence({
           rfid: message.rfid,
           date: timestamp ?? Date.now(),
         })
           .save()
+
           .then((p) => {
-            let presence = Presence.findOne({
+            // get the plain json
+            return Presence.findOne({
               _id: p._id,
             }).lean();
+          })
 
+          .then((presence) => {
+            // get the student by rfid
+            // which later will be injected into presence json
+            // and send to realtime websocket
+            return exports
+              .get_student_by_rfid(presence.rfid)
+              .then((student) => {
+                return { presence, student };
+              });
+          })
+          .then(({ presence, student }) => {
+            // inject the presence json
             presence.date = moment(presence.date).format("YYYY-MM-DD HH:mm");
-            presence.student = exports.get_student_by_rfid(presence.rfid);
+            presence.student = student;
 
             // Pushing to websocket clients
             websockets.clients.forEach((socket) => {
@@ -122,7 +138,9 @@ exports.present = function (message, timestamp = null) {
 
             return presence;
           });
+        // done
       })
+
       .catch((e) => {
         console.log(e);
       })
