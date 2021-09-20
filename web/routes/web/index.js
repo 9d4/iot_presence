@@ -12,6 +12,13 @@ const {
   apis,
   studentApi = apis,
 } = require("../../app/controllers/studentController");
+const Setting = require("../../app/models/Setting");
+
+router.use("/", async function (req, res, next) {
+  const regmode = await Setting.findOne({ name: "registering" }).exec();
+  res.locals.regmode = regmode.value;
+  next();
+});
 
 router.get("/", async (req, res) => {
   res.render("home", {

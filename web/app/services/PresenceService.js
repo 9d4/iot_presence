@@ -3,7 +3,7 @@ const Presence = require("../models/Presence");
 const moment = require("moment");
 const { orderBy } = require("lodash");
 const websockets = require("../../websockets");
-const { query } = require("express");
+const config = require("../../config");
 
 exports.remove_duplicates = async function () {
   let presences = await Presence.find();
@@ -31,7 +31,7 @@ exports.remove_duplicates = async function () {
 //     if ((date = item.presentToday())) {
 //       return {
 //         msg: `Already present today at ${
-//           moment(date).local().hour() + ":" + moment(date).minute()
+//           moment(date).utcOffset(config.utcOffset).hour() + ":" + moment(date).minute()
 //         }`,
 //       };
 //     }
@@ -92,7 +92,9 @@ exports.present = function (message, timestamp = null) {
               if ((date = item.presentToday())) {
                 return Promise.reject(
                   `Already present today at ${
-                    moment(date).local().hour() + ":" + moment(date).minute()
+                    moment(date).utcOffset(config.utcOffset).hour() +
+                    ":" +
+                    moment(date).minute()
                   }`
                 );
               }
@@ -128,8 +130,11 @@ exports.present = function (message, timestamp = null) {
           })
           .then(({ presence, student }) => {
             // inject the presence json
-            presence.date = moment(presence.date).format("YYYY-MM-DD HH:mm");
+            presence.date = moment(presence.date)
+              .utcOffset(config.utcOffset)
+              .format("YYYY-MM-DD HH:mm");
             presence.student = student;
+            console.log(presence.date);
 
             // Pushing to websocket clients
             websockets.clients.forEach((socket) => {
@@ -153,7 +158,9 @@ exports.get_presence_days = async function () {
   let dates = [];
 
   await presences.forEach((p) => {
-    let localDate = moment(p.date).local().format("YYYY-MM-DD");
+    let localDate = moment(p.date)
+      .utcOffset(config.utcOffset)
+      .format("YYYY-MM-DD");
 
     if (!dates.includes(localDate)) {
       dates.push(localDate);

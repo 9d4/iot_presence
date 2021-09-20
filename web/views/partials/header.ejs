@@ -1,6 +1,11 @@
 <nav class="navbar navbar-expand navbar-dark bg-dark mb-2">
   <div class="nav navbar-nav">
-    <a class="nav-item nav-link active" href="/"><%= process.env.APP_NAME %></a>
+    <a class="nav-item nav-link active" href="/">
+      <%= process.env.APP_NAME %>
+    </a>
     <!-- <a class="nav-item nav-link" href="#">Home</a> -->
   </div>
+  <span class="text-info ms-auto">
+    <% if (regmode){ %> reg on <% }else{ %> reg off <% } %>
+  </span>
 </nav>

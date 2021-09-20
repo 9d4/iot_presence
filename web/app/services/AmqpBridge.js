@@ -2,7 +2,7 @@ const open = require("../core/amqpClient");
 const webSocketServer = require("../../websockets");
 const Setting = require("../models/Setting");
 const { present } = require("./PresenceService");
-const { Timestamp } = require("bson");
+const config = require("../../config");
 
 const queue = "presence.in";
 const jobs = {

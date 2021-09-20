@@ -1,9 +1,10 @@
 const mongoose = require("../core/database").mongoose;
 const moment = require("moment");
+const config = require("../../config");
 
 /**
  * ALWAYS REMEMBER!
- * when working with moment, use local() before then chain
+ * when working with moment, use utcOffset(config.utcOffset) before then chain
  * another method
  */
 const presenceSchema = new mongoose.Schema({
@@ -12,7 +13,12 @@ const presenceSchema = new mongoose.Schema({
 });
 
 presenceSchema.methods.presentToday = function () {
-  if (moment.utc(this.date).local().isSame(moment().local(), "day"))
+  if (
+    moment
+      .utc(this.date)
+      .utcOffset(config.utcOffset)
+      .isSame(moment().utcOffset(config.utcOffset), "day")
+  )
     return this.date;
 
   return false;
@@ -24,7 +30,12 @@ presenceSchema.methods.presentAny = function (timestamp) {
     _timestamp = parseInt(timestamp);
   }
 
-  if (moment.utc(this.date).local().isSame(moment(_timestamp).local(), "day"))
+  if (
+    moment
+      .utc(this.date)
+      .utcOffset(config.utcOffset)
+      .isSame(moment(_timestamp).utcOffset(config.utcOffset), "day")
+  )
     return this.date;
 
   return false;

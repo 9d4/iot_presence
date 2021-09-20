@@ -23,6 +23,7 @@ exports.student_reg = async function (req, res, next) {
   doc.value = true;
   doc.save();
 
+  res.locals.regmode = true;
   res.render("student-reg", {
     title: "Register Student",
   });
