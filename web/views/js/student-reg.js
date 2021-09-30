@@ -30,7 +30,7 @@ window.app = new Vue({
   methods: {
     wsUrl() {
       const basUrl = window.location.origin.split("//")[1];
-      return "ws://" + basUrl + "/websocket";
+      return "wss://" + basUrl + "/websocket";
     },
 
     wsInit() {
