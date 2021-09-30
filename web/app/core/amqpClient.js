@@ -8,7 +8,13 @@ const host = {
   password: process.env.AMQP_PASS,
 };
 
-const server = `amqp://${host.username}:${host.password}@${host.url}:${host.port}/${host.vhost}`;
+let server;
+
+if (process.env.AMQP_URL) {
+  server = process.env.AMQP_URL;
+} else {
+  server = `amqp://${host.username}:${host.password}@${host.url}:${host.port}/${host.vhost}`;
+}
 
 module.exports = amqp.connect(server).then(function (conn) {
   console.log("[amqp] connected");
