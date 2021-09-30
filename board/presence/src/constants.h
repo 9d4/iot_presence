@@ -2,12 +2,21 @@
 #define CONSTANTS_H
 
 const char *MQTT_ID = "presence_board_01";
-const char *MQTT_SERVER = "192.168.1.10";
-const int MQTT_PORT = 1884;
-const char MQTT_USERNAME[16] = "smkthp";
-const char MQTT_PASSWORD[16] = "smkthp";
+const char *MQTT_SERVER = "gerbil.rmq.cloudamqp.com";
+const int MQTT_PORT = 1883;
+const char MQTT_USERNAME[16] = "yvsnzpeg:yvsnzpeg";
+const char MQTT_PASSWORD[16] = "cS7BbX-UzcNj6n00Gqi6CgGAAFyf7wNc";
 const char *MQTT_TOPIC = "presence_board/in";
 const char *AP_SSID = "Kaleng Antariksa";
 const char *AP_PASSWORD = "20040809";
+
+// const char *MQTT_ID = "presence_board_01";
+// const char *MQTT_SERVER = "192.168.1.10";
+// const int MQTT_PORT = 1884;
+// const char MQTT_USERNAME[16] = "smkthp";
+// const char MQTT_PASSWORD[16] = "smkthp";
+// const char *MQTT_TOPIC = "presence_board/in";
+// const char *AP_SSID = "Kaleng Antariksa";
+// const char *AP_PASSWORD = "20040809";
 
 #endif
