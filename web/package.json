@@ -7,8 +7,9 @@
     "url": "https://github.com/traperwaze/iot_presence"
   },
   "scripts": {
-    "start": "npx mix build",
-    "dev": "nodemon app.js -e js,ts,env,ejs"
+    "start": "npx mix watch && nodemon app.js",
+    "dev": "nodemon app.js -e js,ts,env,ejs",
+    "serve": "npx mix build && node app.js"
   },
   "license": "ISC",
   "dependencies": {
