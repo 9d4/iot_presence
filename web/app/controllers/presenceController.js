@@ -43,10 +43,12 @@ exports.presence_list = async function (req, res, next) {
     });
   } else {
     if (moment(new Date(queryDate)).isValid()) {
-      date = moment(queryDate).utcOffset().format();
+      date = moment(queryDate).utcOffset(config.utcOffset, true).format();
 
       presences = await presences.filter((p) =>
-        moment(p.date).local().isSame(moment(date), "day") ? true : false
+        moment(p.date).utcOffset(config.utcOffset).isSame(moment(date), "day")
+          ? true
+          : false
       );
     }
   }
