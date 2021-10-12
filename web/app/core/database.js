@@ -11,7 +11,7 @@ exports.init = mongooseLib
   })
   .catch((e) => {
     console.log("[mongodb] Unable to connect database");
-    throw e;
+    throw new Error(e);
   });
 
 exports.mongoose = mongooseLib;

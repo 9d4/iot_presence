@@ -42,21 +42,7 @@ require("./app/core/database")
   })
   .then(function () {
     server.listen(port, () => console.log("[server] Listening at port", port));
+  })
+  .catch((e) => {
+    console.log(e);
   });
-
-// boot.then((msg) => console.log(msg))
-
-// run()
-//   .then(() => {
-//   })
-//   .catch((e) => { throw e })
-//   .then(() => {
-//     // * connect db
-//     require("./app/core/database");
-//   })
-//   .then(() => {
-//     // * run server
-//   })
-//   .catch(e => {
-//     throw new Error(e);
-//   })
