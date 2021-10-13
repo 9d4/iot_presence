@@ -5,60 +5,6 @@ const { orderBy } = require("lodash");
 const websockets = require("../../websockets");
 const config = require("../../config");
 
-exports.remove_duplicates = async function () {
-  let presences = await Presence.find();
-};
-
-// exports.present = async function (message) {
-//   // check if input is valid
-//   if (!message.rfid) {
-//     return "Invalid payload";
-//   } else {
-//     message.rfid = message.rfid.toLowerCase();
-//   }
-
-//   // check if student is registered
-//   const student = (await Student.where("rfid").equals(message.rfid))[0];
-//   if (!student) {
-//     return "User not registered";
-//   }
-
-//   // check if already present at that day (from timestamp)
-//   const presences = await Presence.where("rfid").equals(message.rfid);
-//   for (let i = 0; i < presences.length; i++) {
-//     const item = presences[i];
-
-//     if ((date = item.presentToday())) {
-//       return {
-//         msg: `Already present today at ${
-//           moment(date).utcOffset(config.utcOffset).hour() + ":" + moment(date).minute()
-//         }`,
-//       };
-//     }
-
-//     // if ((date = item.presentAny(req.body.timestamp))) {
-//     //   return { msg: `Already present at that day: ${date}` };
-//     // }
-//   }
-
-//   const p = await new Presence({
-//     rfid: message.rfid,
-//     date: Date.now(),
-//   }).save();
-
-//   let presence = await Presence.findOne({
-//     _id: p._id,
-//   }).lean();
-//   presence.date = moment(presence.date).format("YYYY-MM-DD HH:mm");
-//   presence.student = await exports.get_student_by_rfid(presence.rfid);
-
-//   // Pushing to websocket clients
-//   (await websockets.clients).forEach((socket) => {
-//     socket.send(JSON.stringify(presence));
-//   });
-
-//   return presence;
-// };
 
 exports.present = function (message, timestamp = null) {
   // check if input is valid

@@ -8,4 +8,11 @@
   <span class="text-info ms-auto">
     <% if (regmode){ %> reg on <% }else{ %> reg off <% } %>
   </span>
+  <span class="text-info pe-2 ps-3">
+    <% if (loggedIn) { %>
+      <a href="/logout" class="text-info">Logout</a>
+      <% }else{ %>
+        <a href="/login" class="text-info">Login</a>
+        <% } %>
+  </span>
 </nav>

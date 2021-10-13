@@ -45,7 +45,9 @@ exports.authenticate = async function (req, res, next) {
       req.session.loggedIn = true;
       req.session.username = res.locals.username;
 
-      res.redirect("/");
+      const destination = req.session.intendedRoute ?? "/";
+
+      res.redirect(destination);
     } else {
       res.redirect("/login");
     }

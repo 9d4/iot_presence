@@ -8,6 +8,7 @@ exports.loggedIn = function loggedIn(req, res, next) {
   if (req.session.loggedIn) {
     next();
   } else {
+    req.session.intendedRoute = req.originalUrl;
     res.redirect("/login");
   }
 };

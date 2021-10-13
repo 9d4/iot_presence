@@ -10,6 +10,12 @@ const { orderBy } = require("lodash");
 const { nanoid } = require("nanoid");
 const config = require("../../config");
 
+/**
+ * function present_list
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ * @param {import('express').NextFunction} next
+ */
 exports.presence_list = async function (req, res, next) {
   let presences = orderBy(
     await Presence.find().lean(),
@@ -65,7 +71,8 @@ exports.presence_list = async function (req, res, next) {
 
   if (queryClass && Object.keys(req.query).length === 1) {
     let presenceDates = [];
-    const url = req.path + "?class=" + queryClass + "&date=";
+    const url =
+      req.originalUrl.split("?")[0] + "?class=" + queryClass + "&date=";
 
     presences.forEach((p) => {
       let __date__ = moment(p.date).format("YYYY-MM-DD");
@@ -81,7 +88,8 @@ exports.presence_list = async function (req, res, next) {
 
   if (queryDate && Object.keys(req.query).length === 1) {
     let classes = await get_classes();
-    const url = req.path + "?date=" + queryDate + "&class=";
+    const url =
+      req.originalUrl.split("?")[0] + "?date=" + queryDate + "&class=";
 
     classes.forEach((__class__) => {
       leftContents.push({ link: url + __class__, content: __class__ });

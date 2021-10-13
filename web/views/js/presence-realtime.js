@@ -14,8 +14,11 @@ new Vue({
   },
   methods: {
     wsUrl() {
-      const basUrl = window.location.origin.split("//")[1];
-      return "wss://" + basUrl + "/websocket";
+      const Url = window.location.origin.split("//");
+      const wsProtocol = "ws://";
+      if (Url[0].includes("https:")) wsProtocol = "wss://";
+
+      return wsProtocol + Url[1] + "/websocket";
     },
 
     wsInit() {

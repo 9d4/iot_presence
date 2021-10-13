@@ -21,6 +21,13 @@ router.use(async function (req, res, next) {
   next();
 });
 
+router.use(async function (req, res, next) {
+  if (req.session.loggedIn) res.locals.loggedIn = true;
+  else res.locals.loggedIn = false;
+
+  next();
+});
+
 router.get("/", async (req, res) => {
   res.render("home", {
     links: [
@@ -30,6 +37,7 @@ router.get("/", async (req, res) => {
   });
 });
 
+// * Auth Routes
 router.use(require("./auth"));
 
 // * Student Routes
