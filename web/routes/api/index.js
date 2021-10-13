@@ -1,4 +1,10 @@
 const { Router } = require("express");
-const router = Router();
+const serverRouter = Router().use("/server", require("./server"));
+const studentRouter = Router().use("/student", require("./student"));
+const testRouter = Router().use("/test", require("./test"));
 
-module.exports = [require("./test"), require("./student"), require("./server")];
+module.exports = [
+    serverRouter,
+    studentRouter,
+    testRouter,
+]

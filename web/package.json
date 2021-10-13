@@ -12,27 +12,27 @@
   },
   "license": "ISC",
   "dependencies": {
+    "@vue/compiler-sfc": "^3.2.11",
     "amqplib": "^0.8.0",
+    "bcryptjs": "^2.4.3",
     "dotenv": "^10.0.0",
     "ejs": "^3.1.6",
     "express": "^4.17.1",
     "express-ejs-layouts": "^2.5.1",
+    "express-session": "^1.17.2",
+    "kill-port": "^1.6.1",
+    "laravel-mix": "^6.0.29",
     "lodash": "^4.17.21",
     "moment": "^2.29.1",
     "mongodb": "^4.1.1",
     "mongoose": "^6.0.4",
     "mqtt": "^4.2.8",
     "nanoid": "^3.1.25",
+    "nodemon": "^2.0.12",
     "query-string": "^7.0.1",
     "vue": "^2.6.14",
-    "ws": "^8.2.2",
-    "laravel-mix": "^6.0.29",
-    "@vue/compiler-sfc": "^3.2.11",
     "vue-loader": "^16.2.0",
     "vue-template-compiler": "^2.6.14",
-    "kill-port": "^1.6.1",
-    "nodemon": "^2.0.12"
-  },
-  "devDependencies": {
+    "ws": "^8.2.2"
   }
 }

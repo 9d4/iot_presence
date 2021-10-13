@@ -1,6 +1,7 @@
 require("dotenv").config();
 
 const express = require("express"),
+  session = require("express-session"),
   expressLayouts = require("express-ejs-layouts"),
   app = express(),
   port = process.env.PORT || 3000,
@@ -29,6 +30,16 @@ app.use((req, res, next) => {
   res.locals.res = res;
   next();
 });
+
+// * Sessions
+app.use(
+  session({
+    secret: process.env.APP_KEY,
+    saveUninitialized: false,
+    name: process.env.APP_NAME,
+    resave: false,
+  })
+);
 
 // * routes
 app.use(require("./routes"));
