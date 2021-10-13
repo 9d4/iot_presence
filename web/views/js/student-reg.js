@@ -30,7 +30,7 @@ window.app = new Vue({
   methods: {
     wsUrl() {
       const Url = window.location.origin.split("//");
-      const wsProtocol = "ws://";
+      let wsProtocol = "ws://";
       if (Url[0].includes("https:")) wsProtocol = "wss://";
 
       return wsProtocol + Url[1] + "/websocket";
