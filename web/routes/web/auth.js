@@ -1,21 +1,22 @@
 const { Router } = require("express");
-const { authenticate } = require("../../app/controllers/authController");
+const {
+  authenticate,
+  new_user,
+  new_user_post,
+} = require("../../app/controllers/authController");
+const { unLogged, loggedIn } = require("../../app/middleware/auth");
 const router = (module.exports = Router());
 
-router.get("/login", async function (req, res) {
-  if (req.session.loggedIn === true) {
-    res.redirect("/");
-  }
+router.get("/login", unLogged, async function (req, res) {
   res.render("auth/login");
 });
 
-router.all("/logout", async function (req, res) {
-    if (!req.session.loggedIn) {
-        res.redirect('/login')
-    }
-
-    req.session.destroy((err) => null);
-    res.redirect('/');
+router.all("/logout", loggedIn, async function (req, res) {
+  req.session.destroy((err) => null);
+  res.redirect("/");
 });
 
 router.post("/login", authenticate);
+
+router.get("/login/new", new_user);
+router.post("/login/new", new_user_post);
