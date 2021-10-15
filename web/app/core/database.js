@@ -15,3 +15,4 @@ exports.init = mongooseLib
   });
 
 exports.mongoose = mongooseLib;
+exports.MongoClient = mongooseLib.Connection.prototype.getClient();
